@@ -23,7 +23,7 @@ const registerSchema = joi.object({
                 "Password must include uppercase, lowercase, number, and special character"
         }),
 
-    role: joi.string().valid("employee", "hr").default("employee"),
+    role: joi.string().valid("employee", "HR").default("employee"),
 });
 
 module.exports = {

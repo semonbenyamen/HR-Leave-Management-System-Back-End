@@ -1,4 +1,4 @@
-const User = require("../Models/User");
+const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { registerSchema } = require("./validation/authValidation");
@@ -39,28 +39,31 @@ const register = async (req, res) => {
       data: user,
     });
   } catch (error) {
-    console.log(error);
-  }
+  return res.status(500).json({
+    message: "Internal Server Error",
+    error: error.message
+  });
+}
 };
 
 const login=async(req, res)=>{
   try{
     const {email , password }=req.body;
 
-    const emp=await User.findOne({email}).select("  password  role  ");
-   console.log(emp);
+    const emp=await User.findOne({email}).select("password role");
+  //  console.log(emp);
     if(!emp)return res.status(404).json({
       msg:"not User exist with this eamil  invalid data"
     })
     const match= await bcrypt.compare(password, emp.password);
-    if(!match) return res.status(400).json({msg:"invalid password "})
+    if(!match) return res.status(400).json({msg:"invalid password"})
       const token = jwt.sign({
     id:emp._id,
     role:emp.role,
     },process.env.JWT_SECRET,{
       expiresIn:"6h"
     })
-    console.log(token);
+    // console.log(token);
     return res.status(200).json({
       msg:"login successfully",
       token
@@ -96,7 +99,7 @@ const forgetpwd = async (req, res) => {
   }
          catch(error){
     return res.status(500).json({
-      msg:"error in the user  controller ",
+      msg:"error in the user controller ",
       error:error.message
     })
   }
@@ -123,7 +126,7 @@ const resetpwd = async (req, res) => {
         emp.resetToken = undefined;
         emp.resetTokenExpire = undefined;
         await emp.save();
-        res.json({ msg: "Password reset successful " });
+        res.json({ msg: "Password reset successful" });
     }
 
 module.exports = {register, login ,forgetpwd,resetpwd}

@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken")
 
-function verifyTocken(req, res, next) {
+function verifyToken(req, res, next) {
     const authHeader = req.headers.authorization;
    
     if (!authHeader) {
@@ -19,7 +19,7 @@ function verifyTocken(req, res, next) {
   }
 
 function verifyTokenAndAuthorization(req, res, next) {
-    verifyTocken(req, res, () => {
+    verifyToken(req, res, () => {
         if (req.user.id === req.params.id)
 
             next();
@@ -30,7 +30,7 @@ function verifyTokenAndAuthorization(req, res, next) {
 }
 
 function verifyHR(req, res, next) {
-    verifyTocken(req, res, () => {
+    verifyToken(req, res, () => {
         if (req.user.role === "HR") {
             next();
         } else {
@@ -40,7 +40,7 @@ function verifyHR(req, res, next) {
 }
 
 function verifyEmp(req, res, next) {
-    verifyTocken(req, res, () => {
+    verifyToken(req, res, () => {
 
         if (req.user.role === "employee")
             next();
@@ -51,7 +51,7 @@ function verifyEmp(req, res, next) {
     })
 }
 module.exports = {  
-    verifyTocken,
+    verifyToken,
     verifyTokenAndAuthorization,
     verifyHR,
     verifyEmp

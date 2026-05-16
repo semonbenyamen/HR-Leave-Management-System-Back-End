@@ -1,11 +1,9 @@
-const joy = require ('joi');
+const joi = require("joi");
 
-const leavevalidation = join.Object ({
-
-     type :  joi.string()
-        .valid("Annual", "Sick", "Casual", "Unpaid")
-        .required()
+const leaveValidation = joi.object({
+  type: joi.string()
+    .valid("Annual", "Sick", "Casual", "Unpaid")
+    .required()
 });
 
-
-module.exports = { leavevalidation };
+module.exports = { leaveValidation };
