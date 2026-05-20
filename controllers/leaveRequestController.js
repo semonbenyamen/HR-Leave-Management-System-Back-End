@@ -59,7 +59,7 @@ const createLeaveRequest = async (req, res) => {
       });
     }
 
-    // 🔥 NEW: check overlapping leaves
+    // NEW: check overlapping leaves
     const overlappingLeave = await LeaveRequest.findOne({
       userId,
       status: { $ne: "Rejected" }, // ignore rejected
